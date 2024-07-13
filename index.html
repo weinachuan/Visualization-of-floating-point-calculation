@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEEE 754 Float Visualizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .input-section, .output-section {
+            margin-bottom: 20px;
+        }
+        .output-section div {
+            margin-bottom: 10px;
+        }
+        .bit {
+            display: inline-block;
+            width: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .sign-bit {
+            color: red;
+        }
+        .exponent-bit {
+            color: blue;
+        }
+        .mantissa-bit {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IEEE 754 Float Visualizer</h1>
+        <div class="input-section">
+            <label for="floatInput">Enter a float value:</label>
+            <input type="number" id="floatInput" step="any">
+            <button onclick="visualizeFloat()">Visualize</button>
+        </div>
+        <div class="output-section">
+            <h2>Binary Representation:</h2>
+            <div id="sign"></div>
+            <div id="exponent"></div>
+            <div id="mantissa"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
