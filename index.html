@@ -3,54 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IEEE 754 Float Visualizer</title>
+    <title>浮点数可视化</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            margin: 20px;
         }
         .container {
             max-width: 600px;
             margin: 0 auto;
         }
-        .input-section, .output-section {
+        nav {
             margin-bottom: 20px;
         }
-        .output-section div {
-            margin-bottom: 10px;
-        }
-        .bit {
-            display: inline-block;
-            width: 30px;
-            text-align: center;
-            font-weight: bold;
-        }
-        .sign-bit {
-            color: red;
-        }
-        .exponent-bit {
+        nav a {
+            
+            margin: 0 10px;
+            text-decoration: none;
             color: blue;
+            cursor: pointer;
         }
-        .mantissa-bit {
-            color: green;
+        .active {
+            font-weight: bold;
+            /* text-decoration: underline; */
         }
+        .content {
+            
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .content.active {
+            display: block;
+            opacity: 1;
+        }
+        .input_list {
+            width: 100%;
+            white-space: nowrap; /* 防止换行 */
+        }
+        .idx_list {
+            width: 100%;
+            white-space: nowrap;
+        }
+        .sign_exponent_fraction {
+            width: 100%;
+            white-space: nowrap;
+        }
+        #label {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .input {
+            width: 10px;
+            margin: 0px;
+            border: 1;
+        }
+        .text_box {
+            width: 200px;
+            height: 21px;
+            margin: 0px;
+            border: 0;
+        }
+        input{
+            box-shadow: rgba(105, 105, 105, 0.35) 0px 5px 15px;
+            width: calc(50% - 10px);
+            margin: 5px;
+            outline: none;
+        }
+        .index {
+            width: 14.59px;
+            display: inline-block;
+            vertical-align: middle;
+            transform: translateY(5px);
+            margin: 1.5px; /* adjust spacing as needed */
+            font-family: Arial; /* or any other font */
+            font-size: 20px; /* adjust the size as needed */
+            user-select: none;
+        }
+        select, button {
+            margin: 5px;
+            padding: 5px;
+        }
+        .result {
+            box-shadow: rgba(105, 105, 105, 0.35) 0px 5px 15px;
+            margin-top: 20px;
+        }
+        .sign{width: 10px}
+        .exponent{width: 30px}
+        .fraction{width: 50px}
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>IEEE 754 Float Visualizer</h1>
-        <div class="input-section">
-            <label for="floatInput">Enter a float value:</label>
-            <input type="number" id="floatInput" step="any">
-            <button onclick="visualizeFloat()">Visualize</button>
+        <h1>浮点数可视化</h1>
+        <nav>
+            <a href="#" onclick="selectType('fp16')">FP16</a>
+            <a href="#" onclick="selectType('fp32')">FP32</a>
+            <a href="#" onclick="selectType('fp64')">FP64</a>
+            <a href="#" onclick="selectType('bf16')">BF16</a>
+            <a href="#" onclick="selectType('tf32')">TF32</a>
+            <a href="#" onclick="selectType('custom')">Custom</a>
+        </nav>
+        <div id="fp16" class="content">
+            <h2>FP16</h2>
+            <!-- FP16 specific content -->
         </div>
-        <div class="output-section">
-            <h2>Binary Representation:</h2>
-            <div id="sign"></div>
-            <div id="exponent"></div>
-            <div id="mantissa"></div>
+        <div id="fp32" class="content active">
+            <h2>FP32</h2>
+            <div id="input0-container">
+                <table>
+                    <tr><h3>inut 0:</h3></tr>
+                    <tr id="input_0_sign_exponent_fraction_32" class="input_0 sign_exponent_fraction"></tr>
+                    <tr id="input_0_idx32" class="input_0 idx_list"></tr>
+                    <tr id="input_0_input32" class="input_0 input_list"></tr>
+                </table>
+                <table>
+                    <td><span>DEC:</span></td><td><input id="input_0_dec32" class="input_0 text_box"></td>
+                    <td><span>HEX:</span></td><td><input id="input_0_hex32" class="input_0 text_box"></td>
+                </table>
+            </div>
+            <div id="operator-container">
+
+            </div>
+            <div id="input1-container">
+                <table>
+                    <tr><h3>inut 1:</h3></tr>
+                    <tr id="input_1_sign_exponent_fraction_32" class="input_1 sign_exponent_fraction"></tr>
+                    <tr id="input_1_idx32" class="input_1 idx_list"></tr>
+                    <tr id="input_1_input32" class="input_1 input_list"></tr>
+                </table>
+                <table>
+                    <td><span>DEC:</span></td><td><input id="input_1_dec32" class="input_1 text_box"></td>
+                    <td><span>HEX:</span></td><td><input id="input_1_hex32" class="input_1 text_box"></td>
+                </table>
+            </div>
+            <div id="output0-container">
+                <table>
+                    <tr><h3>output 0:</h3></tr>
+                    <tr id="output_1_sign_exponent_fraction_32" class="output_1 sign_exponent_fraction"></tr>
+                    <tr id="output_1_idx32" class="output_1 idx_list"></tr>
+                    <tr id="output_1_output32" class="output_1 input_list"></tr>
+                </table>
+                <table>
+                    <td><span>DEC:</span></td><td><input id="output_1_dec32" class="output_1 text_box"></td>
+                    <td><span>HEX:</span></td><td><input id="output_1_hex32" class="output_1 text_box"></td>
+                </table>
+            </div>
+            <!-- <div>
+                <input type="number" id="num1" placeholder="Enter first number">
+                <select id="operator">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                </select>
+                <input type="number" id="num2" placeholder="Enter second number">
+                <button onclick="calculate()">Calculate</button>
+            </div>
+            <div class="result" id="result"></div> -->
+        </div>
+        <div id="fp64" class="content">
+            <h2>FP64</h2>
+            <!-- FP64 specific content -->
+        </div>
+        <div id="bf16" class="content">
+            <h2>BF16</h2>
+            <!-- BF16 specific content -->
+        </div>
+        <div id="tf32" class="content">
+            <h2>TF32</h2>
+            <!-- TF32 specific content -->
+        </div>
+        <div id="custom" class="content">
+            <h2>Custom</h2>
+            <!-- Custom specific content -->
         </div>
     </div>
+    
     <script src="script.js"></script>
+    
 </body>
 </html>
